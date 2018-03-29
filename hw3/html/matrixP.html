@@ -1,0 +1,145 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>matrixP</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-02-15"><meta name="DC.source" content="matrixP.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> matrixP
+
+<span class="comment">% solve matrix equation (check on timing and errors)</span>
+
+<span class="keyword">for</span> in=1:4
+    n=in*4;
+
+    <span class="comment">% enter matrix A</span>
+    A=3*pascal(n);
+
+    <span class="comment">% pick exact solution</span>
+    x=ones(n,1);
+    b=A*x;
+
+    <span class="comment">% solve equation</span>
+    xm=A\b;
+    xi=inv(A)*b;
+    r=b-A*xm;
+
+
+    <span class="comment">% compute errors/results</span>
+    errorXM=norm(x-xm,inf)/norm(x,inf);
+    errorXI=norm(x-xi,inf)/norm(x,inf);
+    r_norm=norm(r,inf);
+    kA=cond(A,inf);
+    epskA=eps*kA;
+
+    fprintf(<span class="string">'\n n = %d   ErrorXM = %5.3e   ErrorXI = %5.3e  ||r|| = %5.3e  K(A) = %5.3e  eps*K(A) = %5.3e'</span>,n,errorXM,errorXI,r_norm, kA, epskA)
+<span class="keyword">end</span>
+fprintf(<span class="string">'\n\n'</span>)
+</pre><pre class="codeoutput">
+ n = 4   ErrorXM = 1.021e-14   ErrorXI = 1.421e-14  ||r|| = 0.000e+00  K(A) = 1.190e+03  eps*K(A) = 2.642e-13
+ n = 8   ErrorXM = 2.754e-10   ErrorXI = 1.155e-09  ||r|| = 3.638e-12  K(A) = 3.959e+07  eps*K(A) = 8.790e-09
+ n = 12   ErrorXM = 1.335e-06   ErrorXI = 6.071e-05  ||r|| = 4.657e-10  K(A) = 1.739e+12  eps*K(A) = 3.861e-04Warning: Matrix is close to singular or badly scaled. Results may be inaccurate.
+RCOND =  1.167022e-17. 
+Warning: Matrix is close to singular or badly scaled. Results may be inaccurate.
+RCOND =  1.172739e-17. 
+Warning: Matrix is close to singular or badly scaled. Results may be inaccurate.
+RCOND =  1.172739e-17. 
+
+ n = 16   ErrorXM = 3.899e-04   ErrorXI = 1.719e+00  ||r|| = 3.725e-09  K(A) = 8.527e+16  eps*K(A) = 1.893e+01
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function matrixP
+
+% solve matrix equation (check on timing and errors)
+
+for in=1:4
+    n=in*4;
+    
+    % enter matrix A
+    A=3*pascal(n);
+    
+    % pick exact solution
+    x=ones(n,1);
+    b=A*x;
+    
+    % solve equation
+    xm=A\b;
+    xi=inv(A)*b;
+    r=b-A*xm;
+    
+    
+    % compute errors/results
+    errorXM=norm(x-xm,inf)/norm(x,inf);
+    errorXI=norm(x-xi,inf)/norm(x,inf);
+    r_norm=norm(r,inf);
+    kA=cond(A,inf);
+    epskA=eps*kA;
+    
+    fprintf('\n n = %d   ErrorXM = %5.3e   ErrorXI = %5.3e  ||r|| = %5.3e  K(A) = %5.3e  eps*K(A) = %5.3e',n,errorXM,errorXI,r_norm, kA, epskA)
+end
+fprintf('\n\n')
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,83 @@
+\documentclass[]{article}
+\usepackage{datetime}
+\usepackage{color,array,graphics}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{geometry}
+\usetikzlibrary{arrows,automata}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\usepackage{romannum}
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6.5in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\voffset0.0in
+
+\def\OR{\vee}
+\def\AND{\wedge}
+\def\imp{\rightarrow}
+\def\math#1{$#1$}
+\def\mand#1{$$#1$$}
+\def\mld#1{\begin{equation}
+#1
+\end{equation}}
+\def\eqar#1{\begin{eqnarray}
+#1
+\end{eqnarray}}
+\def\eqan#1{\begin{eqnarray*}
+#1
+\end{eqnarray*}}
+\def\cl#1{{\cal #1}}
+
+\DeclareSymbolFont{AMSb}{U}{msb}{m}{n}
+\DeclareMathSymbol{\N}{\mathbin}{AMSb}{"4E}
+\DeclareMathSymbol{\Z}{\mathbin}{AMSb}{"5A}
+\DeclareMathSymbol{\R}{\mathbin}{AMSb}{"52}
+\DeclareMathSymbol{\Q}{\mathbin}{AMSb}{"51}
+\DeclareMathSymbol{\I}{\mathbin}{AMSb}{"49}
+\DeclareMathSymbol{\C}{\mathbin}{AMSb}{"43}
+
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\begin{document}
+\section *{1.10}
+(a)
+\par $f(x) = \sqrt{1+x^2}$\\\\
+\par $f'(x) = \frac{1}{2}(1+x)^{-1/2}\cdot2x=\frac{x}{\sqrt{1+x^2}}$\\\\
+\par $f''(x) = \frac{x'\cdot\sqrt{1+x^2}-(\sqrt{1+x^2})'\cdot x}{(\sqrt{1+x^2})^2}=\sqrt{1+x^2}^{-\frac{3}{2}}$\\\\
+\par $f'''(x) = -\frac{3x}{(1+x^2)^\frac{5}{2}}$\\\\
+\par $f(0)=1 \ \ f'(0)=0 \ \ f''(0)=0 \ \ f'''(0)=0\\\\$
+\par By Taylor's Theorem:$$f(x) = f(0)+f'(0)x+\frac{f''(0)}{2}x^2+\frac{f'''(0)}{6}x^3+\cdots \approx f(0) = 1$$
+\par Hence $$\displaystyle{\lim_{x\to 0}f(x)}=\frac{\sqrt{1+x^2}-1}{x^2}=\frac{(\sqrt{1+x^2}-1)(\sqrt{1+x^2}+1)}{x^2(\sqrt{1+x^2}+1)}=\frac{x^2}{x^2(\sqrt{1+x^2}+1)}=\frac{1}{\sqrt{1+x^2}+1}=\frac{1}{2}$$\\
+(b)
+\par Since $f(x)$ is an even function so W.L.O.G we analyze for $x>0$, as we observe the value of $\sqrt{1+x^2}$ is a little larger than 1 for smaller values of x. In floating-point numbers just to the right of $x=1$ we have $x=1+\epsilon$, $x=1+2\epsilon\cdots$ Then due to round-off rule of the system, for $x^2<\epsilon/2$, $1+x^2$ will be round to 1 and that causes $$f(x)=\frac{\sqrt{1}-1}{x^2}=0$$ And for real number $b=\sqrt{\frac{\epsilon}{2}}=10^{-8}$, if $x<b$, we have $f(x)=0$. \\\\Additionally the oscillations in the graph is caused by $\sqrt{1+x^2}$-value passes from one floating point interval (such as $(1,1+\frac{\epsilon}{2})$) to the next one (such as $(1+\frac{\epsilon}{2},1+\frac{3\epsilon}{2})$) and when $x=10^{-8}$,  $f(x)$ is jumping in to a value less than 1. Also notice that in every interval the function could be expressed as $$f(x)=\frac{c\cdot\epsilon}{x^2}, \  \ \exists c\in\mathbb{R_+}$$ so the function produces a hyperbolic curve in every interval.
+\newpage
+\section *{1.8(a) Extra credit}
+\par For $k\geq 1$, since $e^{-k}<1$ we have  $$\frac{e^k}{1+e^k} = \frac{1}{e^{-k}+1} > \frac{1}{1+1} = \frac{1}{2}$$ Also notice that $$\frac{e^k}{1+e^k}<1$$ thus we have partial sum inequality $$\displaystyle{\sum_{k=1}^{1000}\frac{1}{2}}<\displaystyle{\sum_{k=1}^{1000}\frac{e^k}{1+e^k}}<\displaystyle{\sum_{k=1}^{1000}1}$$ since for $k=0$ $$\frac{1}{2}\leq \frac{e^k}{1+e^k}<1$$ then we have $$\displaystyle{\sum_{k=1}^{1000}\frac{1}{2}}+\frac{1}{2}<\displaystyle{\sum_{k=1}^{1000}\frac{e^k}{1+e^k}}+\frac{e^0}{1+e^0}<\displaystyle{\sum_{k=1}^{1000}1}+1$$which is $$\frac{1001}{2}<\displaystyle{\sum_{k=0}^{1000}\frac{e^k}{1+e^k}}<1001$$
+
+
+\end{document}a
